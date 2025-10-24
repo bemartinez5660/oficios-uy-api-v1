@@ -2,8 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OficiosUy.Api.Models;
 
-public class UserDTO
+public class UserDto
 {
+    public Guid Id { get; set; }
     
     [Required(ErrorMessage = "First Name is a required field")]
     [MaxLength(50)]
