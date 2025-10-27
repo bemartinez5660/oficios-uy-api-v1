@@ -6,7 +6,6 @@ namespace OficiosUy.Api.Services.Implementation;
 
 public class UsersService(ApplicationDbContext _context) : IUsersService
 {
-
     public async Task<User> SaveUser(UserDto user)
     {
         User newUser = new User
@@ -18,9 +17,10 @@ public class UsersService(ApplicationDbContext _context) : IUsersService
             Phone = user.Phone
         };
         await _context.Users.AddAsync(newUser);
+        _context.SaveChanges();
         return newUser;
     }
-    
+
     public async Task<UserDto?> GetUserById(Guid id)
     {
         var user = await _context.Users.FindAsync(id);
@@ -40,6 +40,11 @@ public class UsersService(ApplicationDbContext _context) : IUsersService
     {
         var user = await _context.Users.FindAsync(id);
         if (user == null) return null;
+        
+        user.Email = updatedUserRequestDto.Email;
+        user.FirstName = updatedUserRequestDto.FirstName;
+        user.LastName = updatedUserRequestDto.LastName;
+        user.Phone = updatedUserRequestDto.Phone;
 
         await _context.SaveChangesAsync();
         
